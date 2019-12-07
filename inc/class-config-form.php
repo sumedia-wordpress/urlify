@@ -11,8 +11,6 @@ class Sumedia_Urlify_Config_Form
 
     public function __construct()
     {
-        global $wpdb;
-
         $this->data = [
             'admin_url' => 'wp-admin',
             'login_url' => 'wp-login.php'

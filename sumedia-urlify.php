@@ -9,13 +9,17 @@
  *
  * @wordpress-plugin
  * Plugin Name: Sumedia URL Changer
- * Version:     0.1.0
+ * Plugin URI:  https://github.com/sumedia-wordpress/urlify
  * Description: Changes important URL's to improve security
+ * Version:     0.1.0
+ * Requires at least: 5.3 (nothing else tested yet)
+ * Requires PHP: 5.3.2 (not tested, could work)
  * Author:      Sven Ullmann
  * Author URI:  https://www.sumedia-webdesign.de
+ * License:     GPL v3
  * Text Domain: sumedia-urlify
  * Domain Path: /languages/
- * License:     GPL v3
+ * Bug Reporting: https://github.com/sumedia-wordpress/urlify/issues
  *
  * WC requires at least: 3.0
  * WC tested up to: 3.8
@@ -49,6 +53,8 @@ if (!defined('SUMEDIA_BASE_VERSION')) {
         add_action('admin_notices', 'sumedia_base_plugin_missing_messsage');
     }
 } else {
+
+    add_action('init', 'sumedia_urlify_initialize', 10);
 
     function sumedia_urlify_initialize()
     {
@@ -84,7 +90,9 @@ if (!defined('SUMEDIA_BASE_VERSION')) {
         $registry = Sumedia_Base_Registry::get_instance();
         $view_renderer = $registry->get('view_renderer');
 
-        if (isset($_REQUEST['page']) && $_REQUEST['page'] == 'sumedia' && isset($_REQUEST['plugin']) && $_REQUEST['plugin'] = 'urlify') {
+        $registry = Sumedia_Base_Registry::get_instance();
+        $view_renderer = $registry->get('view_renderer');
+        if (isset($_REQUEST['page']) && $_REQUEST['page'] == 'sumedia' && isset($_REQUEST['plugin']) && $_REQUEST['plugin'] == 'urlify') {
             $view_renderer->set_template(SUMEDIA_PLUGIN_PATH . SUMEDIA_URLIFY_PLUGIN_NAME . '/admin/templates/config.phtml');
         }
 

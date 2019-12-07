@@ -1,5 +1,5 @@
 {
-    "name": "sumedia-wordpress/urlify",
+    "name": "sumedia-wp/plugin-urlify",
     "description": "Change sensitive URL's",
     "type": "wordpress-plugin",
     "require": {
