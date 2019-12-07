@@ -1,0 +1,107 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Sumedia URL Changer\n"
+"POT-Creation-Date: 2019-12-07 13:17+0100\n"
+"PO-Revision-Date: 2019-12-07 13:19+0100\n"
+"Last-Translator: Sven Ullmann <kontakt@sumedia-webdesign.de>\n"
+"Language-Team: Sven Ullmann <kontakt@sumedia-webdesign.de>\n"
+"Language: de_DE\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 2.2.4\n"
+"X-Poedit-Basepath: ..\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-Flags-xgettext: --add-comments=translators:\n"
+"X-Poedit-WPHeader: sumedia-urlify.php\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: __;_e;_n:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;esc_attr__;"
+"esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c;_n_noop:1,2;"
+"_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPathExcluded-0: *.min.js\n"
+"X-Poedit-SearchPathExcluded-1: vendor\n"
+
+#: sumedia-urlify.php:47
+msgid ""
+"In order to use Sumedia Plugins you need to install Sumedia Base Plugin "
+"(sumedia-base)."
+msgstr ""
+"Um Sumedia Plugins zu verwenden benötigen Sie das Sumedia Base Plugin "
+"(sumedia-base)"
+
+#: admin/templates/config.phtml:14
+msgid "Urlify Configuration"
+msgstr "Urlify Konfiguration"
+
+#: admin/templates/config.phtml:21
+msgid "Setup URL Rewrites"
+msgstr "URL Rewrites einrichten"
+
+#: admin/templates/config.phtml:23
+msgid "Admin URL"
+msgstr "Admin URL"
+
+#: admin/templates/config.phtml:30
+msgid "Login URL"
+msgstr "Login URL"
+
+#: admin/templates/config.phtml:39
+msgid "Save URL's"
+msgstr "URL's speichern"
+
+#: admin/templates/config.phtml:41
+msgid "Reset to Wordpress Defaults"
+msgstr "Zu WordPress Standard zurücksetzen"
+
+#: admin/templates/plugin.phtml:1
+msgid "Urlify"
+msgstr "Urlify"
+
+#: admin/templates/plugin.phtml:8
+msgid ""
+"Important: Before you can remove this plugin you have to deactivate it.<br /"
+">\n"
+"                        If you don't deactivate it you can harm your "
+"ADMIN_COOKIE_PATH in wp-config.php or\n"
+"                        the Rewrite Rules in .htaccess file."
+msgstr ""
+"Wichtig: Bevor Sie dieses Plugin entfernen können, müssen Sie es "
+"deaktivieren.<br />\n"
+"                 Wenn Sie dies nicht tun, könnte Ihre Webseite nicht mehr "
+"korrekt arbeiten aufgrund der Fehlerhaften Konfiguration von "
+"ADMIN_COOKIE_PATH in der wp-config.php oder den Rewrite Rules in der ."
+"htaccess."
+
+#: admin/templates/plugin.phtml:17
+msgid ""
+"This Plugin will provide a way to disallow Access to /wp-admin/ with the "
+"renaming\n"
+"                of the backends default url. It can rewrite the wp-login.php "
+"location too, so bots will\n"
+"                have no chance to find the login script."
+msgstr ""
+"Dieses Plugin stellt eine Lösung zur Verfügung um den Zugriff auf /wp-admin/ "
+"zu verbieten und dessen URL zu ändern.\n"
+"Es kann auch die wp-login.php URI überschreiben, so, dass Bots hier keine "
+"Chance haben das Loginscript zu finden."
+
+#: admin/templates/plugin.phtml:26
+msgid "Configuration"
+msgstr "Konfiguration"
+
+#. Plugin Name of the plugin/theme
+msgid "Sumedia URL Changer"
+msgstr "Sumedia URL Changer"
+
+#. Description of the plugin/theme
+msgid "Changes important URL's to improve security"
+msgstr "Ändert wichtige URL's um die Sicherheit zu erhöhen."
+
+#. Author of the plugin/theme
+msgid "Sven Ullmann"
+msgstr "Sven Ullmann"
+
+#. Author URI of the plugin/theme
+msgid "https://www.sumedia-webdesign.de"
+msgstr "https://www.sumedia-webdesign.de"
