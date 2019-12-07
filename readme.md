@@ -15,4 +15,9 @@ So far in version 0.1.0 it seems to work properly.
 
 This plugin depends on:
 
-wp-cli/wp-config-transformer 
+wp-cli/wp-config-transformer
+
+# IMPORTANT 
+
+If something breaks, you have to revert the changes of this plugin as
+described in https://www.sumedia-howto.de/wordpress/wordpress-urls-rewrite-zum-schutz-sensibler-dateien-und-pfade/ (German)
