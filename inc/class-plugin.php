@@ -2,6 +2,15 @@
 
 class Sumedia_Urlify_Plugin
 {
+    public function init()
+    {
+        $this->textdomain();
+        $this->url_config_form();
+        $this->view();
+        $this->post_set_config();
+        $this->filter_url_functions();
+    }
+
     public function textdomain()
     {
         //$event = new Sumedia_Base_Event(function () {
@@ -11,18 +20,6 @@ class Sumedia_Urlify_Plugin
             SUMEDIA_URLIFY_PLUGIN_NAME . '/languages/');
         //});
         //add_action('plugins_loaded', [$event, 'execute']);
-    }
-
-    public function installer()
-    {
-        $installer = new Sumedia_Urlify_Installer;
-        register_activation_hook(__FILE__, [$installer, 'install']);
-    }
-
-    public function uninstaller()
-    {
-        $deactivator = new Sumedia_Urlify_Deactivator;
-        register_deactivation_hook( __FILE__, [$deactivator, 'deactivate'] );
     }
 
     public function url_config_form()
@@ -39,11 +36,11 @@ class Sumedia_Urlify_Plugin
 
         $plugins = $view->get('sumedia_base_admin_view_plugins');
         $plugins->plugins[SUMEDIA_URLIFY_PLUGIN_NAME] = [
-            'description_template' => SUMEDIA_PLUGIN_PATH . SUMEDIA_URLIFY_PLUGIN_NAME . ds('/admin/templates/plugin.phtml')
+            'description_template' => Suma\ds(SUMEDIA_PLUGIN_PATH . SUMEDIA_URLIFY_PLUGIN_NAME . '/admin/templates/plugin.phtml')
         ];
 
         if (isset($_REQUEST['page']) && $_REQUEST['page'] == 'sumedia' && isset($_REQUEST['plugin']) && $_REQUEST['plugin'] == 'urlify') {
-            $view->get('sumedia_base_admin_view_menu')->template = SUMEDIA_PLUGIN_PATH . SUMEDIA_URLIFY_PLUGIN_NAME . ds('/admin/templates/config.phtml');
+            $view->get('sumedia_base_admin_view_menu')->template = Suma\ds(SUMEDIA_PLUGIN_PATH . SUMEDIA_URLIFY_PLUGIN_NAME . '/admin/templates/config.phtml');
 
             $heading = $view->get('sumedia_base_admin_view_heading');
             $heading->title = __('Urlify');

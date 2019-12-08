@@ -7,11 +7,6 @@ class Sumedia_Urlify_Installer
     /**
      * @var string
      */
-    protected $installedVersion;
-
-    /**
-     * @var string
-     */
     protected $currentVersion;
 
     /**
@@ -20,34 +15,35 @@ class Sumedia_Urlify_Installer
     protected $optionName = 'sumedia_urlify_version';
 
     /**
-     * @var wpdb
+     * @var string
      */
-    protected $db;
+    protected $table_name = 'sumedia_urlify_urls';
 
     public function __construct()
     {
-        global $wpdb;
-        $this->installedVersion = get_option('sumedia_urlify_version');
         $this->currentVersion = SUMEDIA_URLIFY_VERSION;
-        $this->db = $wpdb;
     }
 
     public function install()
     {
-        if (-1 == version_compare($this->installedVersion, $this->currentVersion)) {
-            if (-1 == version_compare($this->installedVersion, '0.1.0')) {
-                $this->install_urlify_table();
-            }
-            add_option($this->optionName, $this->currentVersion);
-        }
+        $this->install_urlify_table();
+        add_option($this->optionName, $this->currentVersion);
     }
 
     protected function install_urlify_table()
     {
-        $charset_collate = $this->db->get_charset_collate();
-        $table_name = $this->db->prefix . 'sumedia_urlify_urls';
+        global $wpdb;
 
-        $sql = "CREATE TABLE IF NOT EXISTS `$table_name` (
+        $table_name = $wpdb->prefix . $this->table_name;
+
+        $query = "SHOW TABLES LIKE '" . $table_name . "'";
+        $row = $wpdb->get_row($query);
+        if ($row) {
+            return;
+        }
+
+        $charset_collate = $wpdb->get_charset_collate();
+        $sql = "CREATE TABLE `$table_name` (
             `id` INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
             `urltype` VARCHAR(64) NOT NULL UNIQUE KEY,
             `url` VARCHAR(128) NOT NULL UNIQUE KEY            

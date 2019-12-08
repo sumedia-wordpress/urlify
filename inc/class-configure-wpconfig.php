@@ -4,8 +4,8 @@ class Sumedia_Urlify_Configure_WPConfig
 {
     public function write($admin_url)
     {
-        $path = $this->get_wp_path() . '/' . $admin_url;
-        $wp_config = new WPConfigTransformer(get_home_path() . '/wp-config.php');
+        $path = $this->get_wp_path() . DIRECTORY_SEPARATOR . $admin_url;
+        $wp_config = new WPConfigTransformer(get_home_path() . DIRECTORY_SEPARATOR . 'wp-config.php');
         $wp_config->update('constant', 'ADMIN_COOKIE_PATH', $path);
     }
 

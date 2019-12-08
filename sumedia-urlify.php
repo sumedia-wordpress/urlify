@@ -13,7 +13,7 @@
  * Description: Changes important URL's to improve security
  * Version:     0.1.0
  * Requires at least: 5.3 (nothing else tested yet)
- * Requires PHP: 5.3.2 (not tested, could work)
+ * Requires PHP: 5.6.0 (not tested, could work)
  * Author:      Sven Ullmann
  * Author URI:  https://www.sumedia-webdesign.de
  * License:     GPL v3
@@ -44,39 +44,38 @@ if (!function_exists( 'add_filter')) {
     exit();
 }
 
-add_action('plugins_loaded', 'sumedia_urlify_initialize', 10);
+if (!defined('SUMEDIA_BASE_VERSION')) {
+    if (!function_exists('sumedia_missing_base_notice')) {
+        add_action('admin_notices', 'sumedia_missing_base_notice');
+        function sumedia_missing_base_notice()
+        {
+            return '<div id="message" class="error fade"><p>' . __('In order to use Sumedia Plugins you need to install Sumedia Base Plugin (sumedia-base).') . '</p></div>';
+        }
+    }
+}
 
-function sumedia_urlify_initialize()
+define('SUMEDIA_URLIFY_VERSION', '0.1.0');
+define('SUMEDIA_URLIFY_PLUGIN_NAME', dirname(plugin_basename(__FILE__)));
+
+require_once(__DIR__ . '/vendor/autoload.php');
+
+require_once(__DIR__ . str_replace('/', DIRECTORY_SEPARATOR, '/inc/class-installer.php'));
+$installer = new Sumedia_Urlify_Installer;
+register_activation_hook(__FILE__, [$installer, 'install']);
+
+require_once(__DIR__ . str_replace('/', DIRECTORY_SEPARATOR, '/inc/class-deactivator.php'));
+$deactivator = new Sumedia_Urlify_Deactivator;
+register_deactivation_hook(__FILE__, [$deactivator, 'deactivate']);
+
+add_action('init', 'sumedia_urlify_init', 10);
+function sumedia_urlify_init()
 {
-    if (!defined('SUMEDIA_BASE_VERSION')) {
-        if (!func_exists('sumedia_base_plugin_missing_message')) {
-            function sumedia_base_plugin_missing_message()
-            {
-                return print '<div id="message" class="error fade"><p>' . __('In order to use Sumedia Plugins you need to install Sumedia Base Plugin (sumedia-base).') . '</p></div>';
-            }
-            add_action('admin_notices', 'sumedia_base_plugin_missing_messsage');
-        }
-    } else {
-        if (defined('SUMEDIA_URLIFY_VERSION')) {
-            return;
-        }
-
-        define('SUMEDIA_URLIFY_VERSION', '0.1.0');
-        define('SUMEDIA_URLIFY_PLUGIN_NAME', dirname(plugin_basename(__FILE__)));
-
-        require_once(__DIR__ . '/vendor/autoload.php');
-
+    if (defined('SUMEDIA_BASE_VERSION')) {
         $autoloader = Sumedia_Base_Autoloader::get_instance();
         $autoloader->register_autoload_dir(SUMEDIA_URLIFY_PLUGIN_NAME, 'inc');
         $autoloader->register_autoload_dir(SUMEDIA_URLIFY_PLUGIN_NAME, 'admin/view');
 
         $plugin = new Sumedia_Urlify_Plugin();
-        $plugin->textdomain();
-        $plugin->installer();
-        $plugin->uninstaller();
-        $plugin->url_config_form();
-        $plugin->view();
-        $plugin->post_set_config();
-        $plugin->filter_url_functions();
+        $plugin->init();
     }
 }

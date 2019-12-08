@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sumedia URL Changer\n"
-"POT-Creation-Date: 2019-12-07 13:17+0100\n"
-"PO-Revision-Date: 2019-12-07 13:19+0100\n"
+"POT-Creation-Date: 2019-12-08 21:57+0100\n"
+"PO-Revision-Date: 2019-12-08 21:57+0100\n"
 "Last-Translator: Sven Ullmann <kontakt@sumedia-webdesign.de>\n"
 "Language-Team: Sven Ullmann <kontakt@sumedia-webdesign.de>\n"
 "Language: de_DE\n"
@@ -22,7 +22,15 @@ msgstr ""
 "X-Poedit-SearchPathExcluded-0: *.min.js\n"
 "X-Poedit-SearchPathExcluded-1: vendor\n"
 
-#: sumedia-urlify.php:47
+#: inc/class-plugin.php:46 admin/templates/plugin.phtml:10
+msgid "Urlify"
+msgstr "Urlify"
+
+#: inc/class-plugin.php:47 admin/templates/plugin.phtml:35
+msgid "Configuration"
+msgstr "Konfiguration"
+
+#: sumedia-urlify.php:52
 msgid ""
 "In order to use Sumedia Plugins you need to install Sumedia Base Plugin "
 "(sumedia-base)."
@@ -30,35 +38,27 @@ msgstr ""
 "Um Sumedia Plugins zu verwenden benötigen Sie das Sumedia Base Plugin "
 "(sumedia-base)"
 
-#: admin/templates/config.phtml:14
-msgid "Urlify Configuration"
-msgstr "Urlify Konfiguration"
-
-#: admin/templates/config.phtml:21
+#: admin/templates/config.phtml:19
 msgid "Setup URL Rewrites"
 msgstr "URL Rewrites einrichten"
 
-#: admin/templates/config.phtml:23
+#: admin/templates/config.phtml:21
 msgid "Admin URL"
 msgstr "Admin URL"
 
-#: admin/templates/config.phtml:30
+#: admin/templates/config.phtml:28
 msgid "Login URL"
 msgstr "Login URL"
 
-#: admin/templates/config.phtml:39
+#: admin/templates/config.phtml:37
 msgid "Save URL's"
 msgstr "URL's speichern"
 
-#: admin/templates/config.phtml:41
+#: admin/templates/config.phtml:39
 msgid "Reset to Wordpress Defaults"
 msgstr "Zu WordPress Standard zurücksetzen"
 
-#: admin/templates/plugin.phtml:1
-msgid "Urlify"
-msgstr "Urlify"
-
-#: admin/templates/plugin.phtml:8
+#: admin/templates/plugin.phtml:17
 msgid ""
 "Important: Before you can remove this plugin you have to deactivate it.<br /"
 ">\n"
@@ -73,7 +73,7 @@ msgstr ""
 "ADMIN_COOKIE_PATH in der wp-config.php oder den Rewrite Rules in der ."
 "htaccess."
 
-#: admin/templates/plugin.phtml:17
+#: admin/templates/plugin.phtml:26
 msgid ""
 "This Plugin will provide a way to disallow Access to /wp-admin/ with the "
 "renaming\n"
@@ -86,13 +86,13 @@ msgstr ""
 "Es kann auch die wp-login.php URI überschreiben, so, dass Bots hier keine "
 "Chance haben das Loginscript zu finden."
 
-#: admin/templates/plugin.phtml:26
-msgid "Configuration"
-msgstr "Konfiguration"
-
 #. Plugin Name of the plugin/theme
 msgid "Sumedia URL Changer"
 msgstr "Sumedia URL Changer"
+
+#. Plugin URI of the plugin/theme
+msgid "https://github.com/sumedia-wordpress/urlify"
+msgstr ""
 
 #. Description of the plugin/theme
 msgid "Changes important URL's to improve security"
@@ -104,4 +104,7 @@ msgstr "Sven Ullmann"
 
 #. Author URI of the plugin/theme
 msgid "https://www.sumedia-webdesign.de"
-msgstr "https://www.sumedia-webdesign.de"
+msgstr ""
+
+#~ msgid "Urlify Configuration"
+#~ msgstr "Urlify Konfiguration"

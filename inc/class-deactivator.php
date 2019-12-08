@@ -8,6 +8,9 @@ class Sumedia_Urlify_Deactivator
 
     public function deactivate()
     {
+        $htaccess = new Sumedia_Urlify_Configure_Htaccess();
+        $htaccess->remove();
+
         $wp_config = new Sumedia_Urlify_Configure_WPConfig();
         $wp_config->write('wp-admin');
     }
