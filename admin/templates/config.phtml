@@ -6,15 +6,13 @@ if (!defined('SUMEDIA_BASE_VERSION')) {
     exit();
 }
 
+$heading = $this->get('sumedia_base_admin_view_heading');
+
 ?>
-<div class="wrap" id="suma-wrap">
-    <div class="suma-content">
-        <div class="suma-heading">
-            <img src="<?php echo SUMEDIA_PLUGIN_URL . 'sumedia-base/assets/images/kolibri-logo.png'; ?>" alt="Sumedia" />
-            <h1><?php echo __('Urlify Configuration', 'sumedia-urlify'); ?></h1>
-            <small><a target="_blank" href="https://www.sumedia-webdesign.de">www.sumedia-webdesign.de</a></small>
-        </div>
-    </div>
+<div class="wrap suma-wrap">
+
+    <?php echo $heading->render(); ?>
+
     <div class="suma-content">
         <form class="suma-form" name="suma-urlfix-config-form" action="<?php echo admin_url('admin.php?page=sumedia&plugin=urlify&action=set-config'); ?>" method="post">
             <fieldset>
