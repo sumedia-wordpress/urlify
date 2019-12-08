@@ -2,10 +2,18 @@
 
 class Sumedia_Urlify_Configure_Htaccess
 {
+    public function remove()
+    {
+        $file = get_home_path() . DIRECTORY_SEPARATOR . '.htaccess';
+        $content = file_get_contents($file);
+        $content = preg_replace('/\# BEGIN sumedia\-urlify.*?\# END sumedia\-urlify/ims','', $content);
+        file_put_contents($file, $content);
+    }
+
     public function write($admin_url, $login_url)
     {
         $modification = $this->get_modification($admin_url, $login_url);
-        $file = get_home_path() . '/.htaccess';
+        $file = get_home_path() . DIRECTORY_SEPARATOR . '.htaccess';
         $content = file_get_contents($file);
         $content = preg_replace('/\# BEGIN sumedia\-urlify.*?\# END sumedia\-urlify/ims','', $content);
 

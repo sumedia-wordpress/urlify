@@ -4,22 +4,10 @@ class Sumedia_Urlify_Plugin
 {
     public function init()
     {
-        $this->textdomain();
         $this->url_config_form();
         $this->view();
         $this->post_set_config();
         $this->filter_url_functions();
-    }
-
-    public function textdomain()
-    {
-        //$event = new Sumedia_Base_Event(function () {
-        load_plugin_textdomain(
-            'sumedia-urlify',
-            false,
-            SUMEDIA_URLIFY_PLUGIN_NAME . '/languages/');
-        //});
-        //add_action('plugins_loaded', [$event, 'execute']);
     }
 
     public function url_config_form()

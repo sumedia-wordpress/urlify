@@ -11,7 +11,7 @@
  * Plugin Name: Sumedia URL Changer
  * Plugin URI:  https://github.com/sumedia-wordpress/urlify
  * Description: Changes important URL's to improve security
- * Version:     0.1.0
+ * Version:     0.1.1
  * Requires at least: 5.3 (nothing else tested yet)
  * Requires PHP: 5.6.0 (not tested, could work)
  * Author:      Sven Ullmann
@@ -54,7 +54,7 @@ if (!defined('SUMEDIA_BASE_VERSION')) {
     }
 }
 
-define('SUMEDIA_URLIFY_VERSION', '0.1.0');
+define('SUMEDIA_URLIFY_VERSION', '0.1.1');
 define('SUMEDIA_URLIFY_PLUGIN_NAME', dirname(plugin_basename(__FILE__)));
 
 require_once(__DIR__ . '/vendor/autoload.php');
@@ -66,6 +66,15 @@ register_activation_hook(__FILE__, [$installer, 'install']);
 require_once(__DIR__ . str_replace('/', DIRECTORY_SEPARATOR, '/inc/class-deactivator.php'));
 $deactivator = new Sumedia_Urlify_Deactivator;
 register_deactivation_hook(__FILE__, [$deactivator, 'deactivate']);
+
+add_action('plugins_loaded', 'sumedia_urlify_textdomain');
+function sumedia_urlify_textdomain()
+{
+    load_plugin_textdomain(
+        'sumedia-urlify',
+        false,
+        SUMEDIA_URLIFY_PLUGIN_NAME . DIRECTORY_SEPARATOR . 'languages');
+}
 
 add_action('init', 'sumedia_urlify_init', 10);
 function sumedia_urlify_init()
