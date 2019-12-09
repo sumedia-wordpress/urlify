@@ -8,7 +8,7 @@
  * @license     http://www.gnu.org/licenses/gpl-3.0.html GNU General Public License, version 3 or higher
  *
  * @wordpress-plugin
- * Plugin Name: Sumedia URL Changer
+ * Plugin Name: Sumedia Urlify
  * Plugin URI:  https://github.com/sumedia-wordpress/urlify
  * Description: Changes important URL's to improve security
  * Version:     0.1.1
