@@ -91,6 +91,11 @@ $event = new Sumedia_Base_Event(function(){
         require_once(__DIR__ . '/inc/class-configure-htaccess.php');
         $htaccess = new Sumedia_Urlify_Configure_Htaccess();
         $htaccess->write($data['admin_url'], $data['login_url']);
+
+        $event = new Sumedia_Base_Event(function() {
+            wp_redirect($_SERVER['REQUEST_URI']);
+        });
+        add_action('template_redirect', [$event, 'execute']);
     }
 });
 add_action('plugins_loaded', [$event, 'execute']);
