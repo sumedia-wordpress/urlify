@@ -66,6 +66,8 @@ require_once(__DIR__ . str_replace('/', DIRECTORY_SEPARATOR, '/inc/class-deactiv
 $deactivator = new Sumedia_Urlify_Deactivator;
 register_deactivation_hook(__FILE__, [$deactivator, 'deactivate']);
 
+
+
 add_action('plugins_loaded', 'sumedia_urlify_textdomain');
 function sumedia_urlify_textdomain()
 {
@@ -74,6 +76,24 @@ function sumedia_urlify_textdomain()
         false,
         SUMEDIA_URLIFY_PLUGIN_NAME . DIRECTORY_SEPARATOR . 'languages');
 }
+
+$event = new Sumedia_Base_Event(function(){
+
+    // currently we can't hook into admin.php where flush_rewrite_rules() will
+    // be taking place. So we have to check on each run
+
+    if (false === strpos(file_get_contents(ABSPATH . '/.htaccess'), '# BEGIN sumedia-urlify')) {
+        require_once(__DIR__ . '/inc/class-config-form.php');
+        $form = new Sumedia_Urlify_Config_Form();
+        $form->load();
+        $data = $form->get_data();
+
+        require_once(__DIR__ . '/inc/class-configure-htaccess.php');
+        $htaccess = new Sumedia_Urlify_Configure_Htaccess();
+        $htaccess->write($data['admin_url'], $data['login_url']);
+    }
+});
+add_action('plugins_loaded', [$event, 'execute']);
 
 add_action('init', 'sumedia_urlify_init', 10);
 function sumedia_urlify_init()

@@ -4,10 +4,26 @@ class Sumedia_Urlify_Plugin
 {
     public function init()
     {
+        $this->htaccess_listener();
         $this->url_config_form();
         $this->view();
         $this->post_set_config();
         $this->filter_url_functions();
+    }
+
+    public function htaccess_listener()
+    {
+        $event = new Sumedia_Base_Event(function(){
+            if ($GLOBALS['sumedia_urlify_htaccess_changed']) {
+                $form = new Sumedia_Urlify_Config_Form();
+                $form->load();
+                $data = $form->get_data();
+
+                $htaccess = new Sumedia_Urlify_Configure_Htaccess();
+                $htaccess->write($data['admin_url'], $data['login_url']);
+            }
+        });
+        add_action('plugins_loaded', [$event, 'execute']);
     }
 
     public function url_config_form()
@@ -48,19 +64,19 @@ class Sumedia_Urlify_Plugin
 
     public function post_set_config()
     {
-        $event = new Sumedia_Base_Event(function(){
-            if (isset($_GET['action']) && $_GET['action'] == 'set-config') {
+        if (isset($_GET['action']) && $_GET['action'] == 'set-config' && isset($_POST['_wpnonce'])) {
+            if (wp_verify_nonce($_POST['_wpnonce'], 'sumedia_urlify_set_config')) {
                 $registry = Sumedia_Base_Registry::get_instance();
-                $form = $registry->get('urlify_config_form');
+                $form = new Sumedia_Urlify_Config_Form();
+                $form->load();
                 $form->do_request($_POST);
                 $form->save();
-                $event = new Sumedia_Base_Event(function() {
-                    wp_redirect(admin_url('admin.php?page=sumedia&plugin=urlify'));
-                });
-                add_action('template_redirect', [$event, 'execute']);
             }
-        });
-        add_action('init', [$event, 'execute']);
+            $event = new Sumedia_Base_Event(function() {
+                wp_redirect(admin_url('admin.php?page=sumedia&plugin=urlify'));
+            });
+            add_action('template_redirect', [$event, 'execute']);
+        }
     }
 
     public function filter_url_functions()

@@ -15,6 +15,7 @@ $heading = $this->get('sumedia_base_admin_view_heading');
 
     <div class="suma-content">
         <form class="suma-form" name="suma-urlfix-config-form" action="<?php echo admin_url('admin.php?page=sumedia&plugin=urlify&action=set-config'); ?>" method="post">
+            <input type="hidden" name="_wpnonce" value="<?php echo wp_create_nonce('sumedia_urlify_set_config'); ?>" />
             <fieldset>
                 <legend><?php echo __('Setup URL Rewrites', 'sumedia-urlify'); ?></legend>
                 <div class="suma-form-option">
