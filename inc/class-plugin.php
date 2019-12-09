@@ -31,8 +31,8 @@ class Sumedia_Urlify_Plugin
             $view->get('sumedia_base_admin_view_menu')->template = Suma\ds(SUMEDIA_PLUGIN_PATH . SUMEDIA_URLIFY_PLUGIN_NAME . '/admin/templates/config.phtml');
 
             $heading = $view->get('sumedia_base_admin_view_heading');
-            $heading->title = __('Urlify');
-            $heading->side_title = __('Configuration');
+            $heading->title = __('Urlify', 'sumedia-urlify');
+            $heading->side_title = __('Configuration', 'sumedia-urlify');
             $heading->version = SUMEDIA_URLIFY_VERSION;
         }
 

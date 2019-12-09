@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: Sumedia URL Changer\n"
-"POT-Creation-Date: 2019-12-08 21:57+0100\n"
-"PO-Revision-Date: 2019-12-08 21:57+0100\n"
+"Project-Id-Version: sumedia-urlify\n"
+"POT-Creation-Date: 2019-12-09 06:14+0100\n"
+"PO-Revision-Date: 2019-12-09 06:15+0100\n"
 "Last-Translator: Sven Ullmann <kontakt@sumedia-webdesign.de>\n"
 "Language-Team: Sven Ullmann <kontakt@sumedia-webdesign.de>\n"
 "Language: de_DE\n"
@@ -22,15 +22,15 @@ msgstr ""
 "X-Poedit-SearchPathExcluded-0: *.min.js\n"
 "X-Poedit-SearchPathExcluded-1: vendor\n"
 
-#: inc/class-plugin.php:46 admin/templates/plugin.phtml:10
+#: inc/class-plugin.php:34 admin/templates/plugin.phtml:10
 msgid "Urlify"
 msgstr "Urlify"
 
-#: inc/class-plugin.php:47 admin/templates/plugin.phtml:35
+#: inc/class-plugin.php:35 admin/templates/plugin.phtml:35
 msgid "Configuration"
 msgstr "Konfiguration"
 
-#: sumedia-urlify.php:52
+#: sumedia-urlify.php:54
 msgid ""
 "In order to use Sumedia Plugins you need to install Sumedia Base Plugin "
 "(sumedia-base)."
@@ -64,18 +64,19 @@ msgid ""
 ">\n"
 "                        If you don't deactivate it you can harm your "
 "ADMIN_COOKIE_PATH in wp-config.php or\n"
-"                        the Rewrite Rules in .htaccess file."
+"                        the rewrite rules in .htaccess file."
 msgstr ""
 "Wichtig: Bevor Sie dieses Plugin entfernen können, müssen Sie es "
 "deaktivieren.<br />\n"
 "                 Wenn Sie dies nicht tun, könnte Ihre Webseite nicht mehr "
-"korrekt arbeiten aufgrund der Fehlerhaften Konfiguration von "
+"korrekt arbeiten aufgrund der fehlerhaften Konfiguration von "
 "ADMIN_COOKIE_PATH in der wp-config.php oder den Rewrite Rules in der ."
 "htaccess."
 
 #: admin/templates/plugin.phtml:26
+#, fuzzy
 msgid ""
-"This Plugin will provide a way to disallow Access to /wp-admin/ with the "
+"This Plugin will provide a way to disallow access to /wp-admin/ with the "
 "renaming\n"
 "                of the backends default url. It can rewrite the wp-login.php "
 "location too, so bots will\n"
@@ -87,8 +88,8 @@ msgstr ""
 "Chance haben das Loginscript zu finden."
 
 #. Plugin Name of the plugin/theme
-msgid "Sumedia URL Changer"
-msgstr "Sumedia URL Changer"
+msgid "sumedia-urlify"
+msgstr ""
 
 #. Plugin URI of the plugin/theme
 msgid "https://github.com/sumedia-wordpress/urlify"
@@ -96,7 +97,7 @@ msgstr ""
 
 #. Description of the plugin/theme
 msgid "Changes important URL's to improve security"
-msgstr "Ändert wichtige URL's um die Sicherheit zu erhöhen."
+msgstr "Ändert wichtige URL's um die Sicherheit zu erhöhen"
 
 #. Author of the plugin/theme
 msgid "Sven Ullmann"
@@ -105,6 +106,9 @@ msgstr "Sven Ullmann"
 #. Author URI of the plugin/theme
 msgid "https://www.sumedia-webdesign.de"
 msgstr ""
+
+#~ msgid "Sumedia URL Changer"
+#~ msgstr "Sumedia URL Changer"
 
 #~ msgid "Urlify Configuration"
 #~ msgstr "Urlify Konfiguration"
