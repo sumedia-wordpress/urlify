@@ -2,35 +2,40 @@
 
 require_once ABSPATH . 'wp-admin/includes/upgrade.php';
 
-class Sumedia_Urlify_Installer
+class Sumedia_Urlify_Db_Installer
 {
     /**
      * @var string
      */
-    protected $currentVersion;
+    protected $current_version;
 
     /**
      * @var string
      */
-    protected $optionName = 'sumedia_urlify_version';
+    protected $option_name;
 
     /**
      * @var string
      */
-    protected $table_name = 'sumedia_urlify_urls';
+    protected $table_name;
 
     public function __construct()
     {
-        $this->currentVersion = SUMEDIA_URLIFY_VERSION;
+        $this->current_version = SUMEDIA_URLIFY_VERSION;
+        $this->option_name = str_replace('-', '_', SUMEDIA_URLIFY_PLUGIN_NAME) . '_version';
+        $this->table_name = str_replace('-', '_', SUMEDIA_URLIFY_PLUGIN_NAME) . '_urls';
     }
 
     public function install()
     {
-        $this->install_urlify_table();
-        add_option($this->optionName, $this->currentVersion);
+        $installed_version = get_option($this->option_name);
+        if (!$installed_version || version_compare($installed_version, $this->current_version, '<')) {
+            $this->install_table();
+            add_option($this->option_name, $this->current_version);
+        }
     }
 
-    protected function install_urlify_table()
+    protected function install_table()
     {
         global $wpdb;
 

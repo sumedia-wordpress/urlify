@@ -1,5 +1,12 @@
 <?php
 
+
+if (!defined('ABSPATH')) {
+    header( 'Status: 403 Forbidden' );
+    header( 'HTTP/1.1 403 Forbidden' );
+    exit();
+}
+
 if (!defined('SUMEDIA_BASE_VERSION')) {
     define('SUMEDIA_PLUGIN_PATH', dirname(__DIR__) . DIRECTORY_SEPARATOR);
     define('SUMEDIA_PLUGIN_URL', plugin_dir_url(__DIR__));

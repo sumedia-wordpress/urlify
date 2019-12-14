@@ -6,38 +6,35 @@ if (!defined('SUMEDIA_BASE_VERSION')) {
     exit();
 }
 
-$heading = $this->get('sumedia_base_admin_view_heading');
+$form = Sumedia_Base_Registry_View::get('Sumedia_Urlify_Admin_Form_Config');
 
 ?>
 <div class="wrap suma-wrap">
-
-    <?php echo $heading->render(); ?>
-
     <div class="suma-content">
-        <form class="suma-form" name="suma-urlfix-config-form" action="<?php echo admin_url('admin.php?page=sumedia&plugin=urlify&action=set-config'); ?>" method="post">
-            <input type="hidden" name="_wpnonce" value="<?php echo wp_create_nonce('sumedia_urlify_set_config'); ?>" />
+        <form class="suma-form" name="suma-urlfix-config-form" action="<?php echo admin_url('admin.php?page=sumedia&plugin=' . SUMEDIA_URLIFY_PLUGIN_NAME . '&action=setconfig'); ?>" method="post">
+            <input type="hidden" name="_wpnonce" value="<?php echo wp_create_nonce(); ?>" />
             <fieldset>
-                <legend><?php echo __('Setup URL Rewrites', 'sumedia-urlify'); ?></legend>
+                <legend><?php echo esc_html(__('Setup URL Rewrites', SUMEDIA_URLIFY_PLUGIN_NAME)); ?></legend>
                 <div class="suma-form-option">
-                    <div class="suma-form-label"><label><?php echo __('Admin URL', 'sumedia-urlify'); ?>:</label></div>
+                    <div class="suma-form-label"><label><?php echo esc_html(__('Admin URL', SUMEDIA_URLIFY_PLUGIN_NAME)); ?>:</label></div>
                     <div class="suma-form-input">
-                        <?php echo site_url('/wp-admin'); ?> to:<br />
-                        <strong><?php echo site_url(); ?>/</strong> <input name="admin_url" size="10" type="text" value="<?php echo $this->get('urls')->get('admin_url'); ?>" />
+                        <?php echo site_url() . '/wp-admin'; ?> to:<br />
+                        <strong><?php echo site_url(); ?>/</strong> <input name="admin_url" size="10" type="text" value="<?php echo esc_attr($form->get_data('admin_url')); ?>" />
                     </div>
                 </div>
                 <div class="suma-form-option">
-                    <div class="suma-form-label"><label><?php echo __('Login URL', 'sumedia-urlify'); ?>:</label></div>
+                    <div class="suma-form-label"><label><?php echo __('Login URL', SUMEDIA_URLIFY_PLUGIN_NAME); ?>:</label></div>
                     <div class="suma-form-input">
-                        <?php echo site_url('/login.php'); ?> to:<br />
-                        <strong><?php echo site_url(); ?>/</strong> <input name="login_url" size="10" type="text" value="<?php echo $this->get('urls')->get('login_url'); ?>" />
+                        <?php echo site_url() . '/wp-login.php'; ?> to:<br />
+                        <strong><?php echo site_url(); ?>/</strong> <input name="login_url" size="10" type="text" value="<?php echo esc_attr($form->get_data('login_url')); ?>" />
                     </div>
                 </div>
             </fieldset>
             <br />
             <div class="suma-form-actions">
-                <input class="button" type="submit" name="submit" value="<?php echo __('Save URL\'s', 'sumedia-urlify'); ?>" />
+                <input class="button" type="submit" name="submit" value="<?php echo esc_attr(__('Save URL\'s', SUMEDIA_URLIFY_PLUGIN_NAME)); ?>" />
                 <div class="right">
-                    <a href="javascript:void(0);" name="reset"><?php echo __('Reset to Wordpress Defaults', 'sumedia-urlify'); ?></a>
+                    <a href="javascript:void(0);" name="reset"><?php echo esc_html(__('Reset to Wordpress Defaults', SUMEDIA_URLIFY_PLUGIN_NAME)); ?></a>
                 </div>
             </div>
         </form>

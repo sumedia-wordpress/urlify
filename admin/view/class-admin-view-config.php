@@ -1,16 +1,15 @@
 <?php
 
-class Sumedia_Urlify_Admin_View_Config
+class Sumedia_Urlify_Admin_View_Config extends Sumedia_Base_View
 {
-    protected $data = [];
-
-    public function set($urltype, $url)
+    public function __construct()
     {
-        $this->data[$urltype] = $url;
-    }
-
-    public function get($urltype)
-    {
-        return $this->data[$urltype];
+        $this->template = Suma\ds(SUMEDIA_PLUGIN_PATH . '/' . SUMEDIA_URLIFY_PLUGIN_NAME . '/admin/templates/config.phtml');
+        $form = new Sumedia_Urlify_Admin_Form_Config;
+        $form->set_data([
+            'admin_url' => 'wp-admin',
+            'login_url' => 'wp-login.php'
+        ]);
+        $this->set('form', $form);
     }
 }

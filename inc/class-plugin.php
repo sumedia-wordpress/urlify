@@ -4,61 +4,101 @@ class Sumedia_Urlify_Plugin
 {
     public function init()
     {
-        $this->url_config_form();
-        $this->view();
-        $this->post_set_config();
+        add_action('plugins_loaded', [$this, 'textdomain']);
+
+        $this->rewrite_listener();
         $this->filter_url_functions();
+
+        add_action('plugins_loaded', [$this, 'plugin_view']);
+        add_action('plugins_loaded', [$this, 'controller']);
     }
 
-    public function url_config_form()
+    function activate()
     {
-        $registry = Sumedia_Base_Registry::get_instance();
-        $form = new Sumedia_Urlify_Config_Form();
-        $form->load();
-        $registry->set('sumedia_urlify_config_form', $form);
+        $installer = new Sumedia_Urlify_Db_Installer();
+        $installer->install();
+
+        $urls = Sumedia_Urlify_Repository_Urls::get_instance();
+        $admin_url = $urls->get_admin_url();
+        $login_url = $urls->get_login_url();
+
+        $htaccess = Sumedia_Urlify_Repository_Htaccess::get_instance($admin_url, $login_url);
+        $htaccess->write($admin_url, $login_url);
+
+        $config = Sumedia_Urlify_Repository_Config::get_instance();
+        $config->write($admin_url);
+
+        add_action('admin_init', function(){
+            wp_redirect(admin_url('plugins.php?' . $_SERVER['QUERY_STRING']));
+        });
     }
 
-    public function view()
+    function deactivate()
     {
-        $view = Sumedia_Base_Registry::get_instance('view');
+        $urls = Sumedia_Urlify_Repository_Urls::get_instance();
+        $admin_url = $urls->get_admin_url();
+        $login_url = $urls->get_login_url();
 
-        $plugins = $view->get('sumedia_base_admin_view_plugins');
-        $plugins->plugins[SUMEDIA_URLIFY_PLUGIN_NAME] = [
+        $htaccess = Sumedia_Urlify_Repository_Htaccess::get_instance($admin_url, $login_url);
+        $htaccess->register_rewrite_filter();
+        $htaccess->remove();
+
+        $config = Sumedia_Urlify_Repository_Config::get_instance();
+        $config->remove();
+
+        // can't redirect here =/ - user drops to 404
+    }
+
+    function textdomain()
+    {
+        load_plugin_textdomain(
+            SUMEDIA_URLIFY_PLUGIN_NAME,
+            false,
+            SUMEDIA_URLIFY_PLUGIN_NAME . DIRECTORY_SEPARATOR . 'languages'
+        );
+    }
+
+    public function rewrite_listener()
+    {
+        $urls = Sumedia_Urlify_Repository_Urls::get_instance();
+        $admin_url = $urls->get_admin_url();
+        $login_url = $urls->get_login_url();
+
+        Sumedia_Urlify_Repository_Htaccess::get_instance($admin_url, $login_url);
+    }
+
+    public function plugin_view()
+    {
+        $plugins = Sumedia_Base_Registry_View::get('Sumedia_Base_Admin_View_Plugins');
+        $plugins->add_plugin(SUMEDIA_URLIFY_PLUGIN_NAME, [
+            'name' => 'Urlify',
+            'version' => SUMEDIA_URLIFY_VERSION,
+            'options' => [
+                [
+                    'name' => __('Configuration', SUMEDIA_URLIFY_PLUGIN_NAME),
+                    'url' => admin_url('admin.php?page=sumedia&plugin=' . SUMEDIA_URLIFY_PLUGIN_NAME . '&action=config')
+                ]
+            ],
             'description_template' => Suma\ds(SUMEDIA_PLUGIN_PATH . SUMEDIA_URLIFY_PLUGIN_NAME . '/admin/templates/plugin.phtml')
-        ];
-
-        if (isset($_REQUEST['page']) && $_REQUEST['page'] == 'sumedia' && isset($_REQUEST['plugin']) && $_REQUEST['plugin'] == 'urlify') {
-            $view->get('sumedia_base_admin_view_menu')->template = Suma\ds(SUMEDIA_PLUGIN_PATH . SUMEDIA_URLIFY_PLUGIN_NAME . '/admin/templates/config.phtml');
-
-            $heading = $view->get('sumedia_base_admin_view_heading');
-            $heading->title = __('Urlify', 'sumedia-urlify');
-            $heading->side_title = __('Configuration', 'sumedia-urlify');
-            $heading->version = SUMEDIA_URLIFY_VERSION;
-        }
-
-        $registry = Sumedia_Base_Registry::get_instance();
-        $url_config_form = $registry->get('sumedia_urlify_config_form');
-        $data = $url_config_form->get_data();
-        $urls = new Sumedia_Urlify_Admin_View_Config();
-        foreach ($data as $urltype => $url) {
-            $urls->set($urltype, $url);
-        }
-        $view->set('urls', $urls);
+        ]);
     }
 
-    public function post_set_config()
+    public function controller()
     {
-        if (isset($_GET['action']) && $_GET['action'] == 'set-config' && isset($_POST['_wpnonce'])) {
-            if (wp_verify_nonce($_POST['_wpnonce'], 'sumedia_urlify_set_config')) {
-                $form = new Sumedia_Urlify_Config_Form();
-                $form->load();
-                $form->do_request($_POST);
-                $form->save();
+        if (isset($_GET['page']) && isset($_GET['plugin']) && isset($_GET['action'])) {
+            if ($_GET['page'] == 'sumedia' && $_GET['plugin'] == SUMEDIA_URLIFY_PLUGIN_NAME)
+            {
+                if ($_GET['action'] == 'config') {
+                    $controller = Sumedia_Urlify_Admin_Controller_Config::get_instance();
+                } elseif ($_GET['action'] == 'setconfig') {
+                    $controller = Sumedia_Urlify_Admin_Controller_Setconfig::get_instance();
+                }
+
+                if (isset($controller)) {
+                    add_action('admin_init', [$controller, 'prepare']);
+                    add_action('admin_init', [$controller, 'execute']);
+                }
             }
-            $event = new Sumedia_Base_Event(function() {
-                wp_redirect(admin_url('admin.php?page=sumedia&plugin=urlify'));
-            });
-            add_action('template_redirect', [$event, 'execute']);
         }
     }
 
@@ -71,12 +111,13 @@ class Sumedia_Urlify_Plugin
         add_filter('admin_url', 'sumedia_urlify_url');
         function sumedia_urlify_url($url)
         {
-            $registry = Sumedia_Base_Registry::get_instance();
-            $form = $registry->get('sumedia_urlify_config_form');
-            $data = $form->get_data();
+            $urls = Sumedia_Urlify_Repository_Urls::get_instance();
+            $admin_url = $urls->get_admin_url();
+            $login_url = $urls->get_login_url();
+
             return str_replace(
                 ['wp-login.php', '/wp-admin/'],
-                [$data['login_url'], '/' . $data['admin_url'] . '/'],
+                [$login_url, '/' . $admin_url . '/'],
                 $url
             );
         }

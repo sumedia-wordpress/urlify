@@ -11,7 +11,7 @@
  * Plugin Name: sumedia-urlify
  * Plugin URI:  https://github.com/sumedia-wordpress/urlify
  * Description: Changes important URL's to improve security
- * Version:     0.1.1
+ * Version:     0.2.0
  * Requires at least: 5.3 (nothing else tested yet)
  * Requires PHP: 5.6.0 (not tested, could work)
  * Author:      Sven Ullmann
@@ -44,71 +44,23 @@ if (!function_exists( 'add_filter')) {
     exit();
 }
 
-require_once(__DIR__ . str_replace('/', DIRECTORY_SEPARATOR, '/vendor/autoload.php'));
+require_once(__DIR__ . DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR . 'autoload.php');
 require_once(__DIR__ . DIRECTORY_SEPARATOR . 'sumedia-base.php');
 
-if (!function_exists('sumedia_missing_base_notice')) {
-    add_action('admin_notices', 'sumedia_missing_base_notice');
-    function sumedia_missing_base_notice()
-    {
-        return '<div id="message" class="error fade"><p>' . __('In order to use Sumedia Plugins you need to install Sumedia Base Plugin (sumedia-base).') . '</p></div>';
-    }
-}
+if (defined('SUMEDIA_BASE_VERSION')) {
 
-define('SUMEDIA_URLIFY_VERSION', '0.1.1');
-define('SUMEDIA_URLIFY_PLUGIN_NAME', dirname(plugin_basename(__FILE__)));
+    define('SUMEDIA_URLIFY_VERSION', '0.2.0');
+    define('SUMEDIA_URLIFY_PLUGIN_NAME', dirname(plugin_basename(__FILE__)));
 
-require_once(__DIR__ . str_replace('/', DIRECTORY_SEPARATOR, '/inc/class-installer.php'));
-$installer = new Sumedia_Urlify_Installer;
-register_activation_hook(__FILE__, [$installer, 'install']);
+    $autoloader = Sumedia_Base_Autoloader::get_instance();
+    $autoloader->register_autoload_dir(SUMEDIA_URLIFY_PLUGIN_NAME, 'inc');
+    $autoloader->register_autoload_dir(SUMEDIA_URLIFY_PLUGIN_NAME, Suma\ds('admin/view'));
+    $autoloader->register_autoload_dir(SUMEDIA_URLIFY_PLUGIN_NAME, Suma\ds('admin/form'));
+    $autoloader->register_autoload_dir(SUMEDIA_URLIFY_PLUGIN_NAME, Suma\ds('admin/controller'));
 
-require_once(__DIR__ . str_replace('/', DIRECTORY_SEPARATOR, '/inc/class-deactivator.php'));
-$deactivator = new Sumedia_Urlify_Deactivator;
-register_deactivation_hook(__FILE__, [$deactivator, 'deactivate']);
+    $plugin = new Sumedia_Urlify_Plugin();
+    register_activation_hook(__FILE__, [$plugin, 'activate']);
+    register_deactivation_hook(__FILE__, [$plugin, 'deactivate']);
+    $plugin->init();
 
-
-
-add_action('plugins_loaded', 'sumedia_urlify_textdomain');
-function sumedia_urlify_textdomain()
-{
-    load_plugin_textdomain(
-        'sumedia-urlify',
-        false,
-        SUMEDIA_URLIFY_PLUGIN_NAME . DIRECTORY_SEPARATOR . 'languages');
-}
-
-$event = new Sumedia_Base_Event(function(){
-
-    // currently we can't hook into admin.php where flush_rewrite_rules() will
-    // be taking place. So we have to check on each run
-
-    if (false === strpos(file_get_contents(ABSPATH . '/.htaccess'), '# BEGIN sumedia-urlify')) {
-        require_once(__DIR__ . '/inc/class-config-form.php');
-        $form = new Sumedia_Urlify_Config_Form();
-        $form->load();
-        $data = $form->get_data();
-
-        require_once(__DIR__ . '/inc/class-configure-htaccess.php');
-        $htaccess = new Sumedia_Urlify_Configure_Htaccess();
-        $htaccess->write($data['admin_url'], $data['login_url']);
-
-        $event = new Sumedia_Base_Event(function() {
-            wp_redirect($_SERVER['REQUEST_URI']);
-        });
-        add_action('template_redirect', [$event, 'execute']);
-    }
-});
-add_action('plugins_loaded', [$event, 'execute']);
-
-add_action('init', 'sumedia_urlify_init', 10);
-function sumedia_urlify_init()
-{
-    if (defined('SUMEDIA_BASE_VERSION')) {
-        $autoloader = Sumedia_Base_Autoloader::get_instance();
-        $autoloader->register_autoload_dir(SUMEDIA_URLIFY_PLUGIN_NAME, 'inc');
-        $autoloader->register_autoload_dir(SUMEDIA_URLIFY_PLUGIN_NAME, 'admin/view');
-
-        $plugin = new Sumedia_Urlify_Plugin();
-        $plugin->init();
-    }
 }

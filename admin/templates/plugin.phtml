@@ -7,32 +7,22 @@ if (!defined('SUMEDIA_BASE_VERSION')) {
 }
 
 ?>
-<h3><?php echo __('Urlify', 'sumedia-urlify'); ?> <small><?php echo SUMEDIA_URLIFY_VERSION; ?></small></h3>
-<small>sumedia-urlify</small>
-<div class="sumedia-overview-plugin">
-    <div class="sumedia-overview-plugin-description">
 
-        <p class="notice notice-warning">
-            <?php
-            echo __('Important: Before you can remove this plugin you have to deactivate it.<br />
-                        If you don\'t deactivate it you can harm your ADMIN_COOKIE_PATH in wp-config.php or
-                        the rewrite rules in .htaccess file.',
-                'sumedia-urlify');
-            ?>
-        </p>
+<p class="notice notice-warning">
+    <?php
+        echo nl2br(sprintf(esc_html(__('Important: Before you can remove this plugin you have to deactivate it.
+    If you don\'t deactivate your system may not work properly. %sMore Details%s',
+            SUMEDIA_URLIFY_PLUGIN_NAME)),
+            '<a target="_blank" href="https://www.sumedia-howto.de/wordpress/wordpress-urls-rewrite-zum-schutz-sensibler-dateien-und-pfade/">',
+            '</a>'
+        ));
+    ?>
+</p>
 
-        <p>
-            <?php
-            echo __('This Plugin will provide a way to disallow access to /wp-admin/ with the renaming
-                of the backends default url. It can rewrite the wp-login.php location too, so bots will
-                have no chance to find the login script.',
-                'sumedia-urlify');
-            ?>
-        </p>
-    </div>
-    <div class="sumedia-overview-plugin-actions">
-        <p>
-            <a href="<?php echo admin_url('admin.php?page=sumedia&plugin=urlify'); ?>"><?php echo __('Configuration', 'sumedia-urlify'); ?></a>
-        </p>
-    </div>
-</div>
+<p>
+    <?php
+        echo nl2br(esc_html(__('This Plugin will provide a way to disallow access to /wp-admin/ with the renaming of the backends default url. It can rewrite the wp-login.php location too, so bots will have no chance to find the login script.',
+            SUMEDIA_URLIFY_PLUGIN_NAME
+        )));
+    ?>
+</p>
