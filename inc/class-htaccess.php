@@ -1,12 +1,7 @@
 <?php
 
-class Sumedia_Urlify_Repository_Htaccess
+class Sumedia_Urlify_Htaccess
 {
-    /**
-     * @var Sumedia_Urlify_Repository_Htaccess
-     */
-    protected static $instance;
-
     /**
      * @var array
      */
@@ -30,24 +25,10 @@ class Sumedia_Urlify_Repository_Htaccess
     /**
      * Sumedia_Urlify_Htaccess_Repository constructor.
      */
-    protected function __construct($admin_url, $login_url) {
+    public function __construct($admin_url, $login_url) {
         $this->init($admin_url, $login_url);
         $this->register_rewrite_filter();
-    }
-
-    /**
-     * @return Sumedia_Urlify_Repository_Htaccess
-     */
-    public static function get_instance($admin_url = null, $login_url = null)
-    {
-        if (null == static::$instance) {
-            if (null == $admin_url || null == $login_url)
-            {
-                throw new RuntimeException('Please instantiate first load with admin and login url');
-            }
-            static::$instance = new static($admin_url, $login_url);
-        }
-        return static::$instance;
+        $this->parse_modifications($admin_url, $login_url);
     }
 
     public function init($admin_url, $login_url)

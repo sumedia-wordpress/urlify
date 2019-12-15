@@ -10,9 +10,8 @@ if (!defined('SUMEDIA_BASE_VERSION')) {
 
 <p class="notice notice-warning">
     <?php
-        echo nl2br(sprintf(esc_html(__('Important: Before you can remove this plugin you have to deactivate it.
-    If you don\'t deactivate your system may not work properly. %sMore Details%s',
-            SUMEDIA_URLIFY_PLUGIN_NAME)),
+        echo nl2br(sprintf(
+            esc_html(__('Important: Before you can remove this plugin you have to deactivate it. %sMore Details%s',SUMEDIA_URLIFY_PLUGIN_NAME)),
             '<a target="_blank" href="https://www.sumedia-howto.de/wordpress/wordpress-urls-rewrite-zum-schutz-sensibler-dateien-und-pfade/">',
             '</a>'
         ));
@@ -21,8 +20,11 @@ if (!defined('SUMEDIA_BASE_VERSION')) {
 
 <p>
     <?php
-        echo nl2br(esc_html(__('This Plugin will provide a way to disallow access to /wp-admin/ with the renaming of the backends default url. It can rewrite the wp-login.php location too, so bots will have no chance to find the login script.',
-            SUMEDIA_URLIFY_PLUGIN_NAME
-        )));
+        echo nl2br(
+            esc_html(__(
+                'This Plugin will provide a way to disallow access to /wp-admin/ with the renaming of the backends default url. It can rewrite the wp-login.php location too, so bots will have no chance to find the login script.',
+                SUMEDIA_URLIFY_PLUGIN_NAME
+            ))
+        );
     ?>
 </p>

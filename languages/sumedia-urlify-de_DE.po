@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: sumedia-urlify\n"
-"POT-Creation-Date: 2019-12-14 03:08+0100\n"
-"PO-Revision-Date: 2019-12-14 03:09+0100\n"
+"POT-Creation-Date: 2019-12-15 15:04+0100\n"
+"PO-Revision-Date: 2019-12-15 15:04+0100\n"
 "Last-Translator: Sven Ullmann <kontakt@sumedia-webdesign.de>\n"
 "Language-Team: Sven Ullmann <kontakt@sumedia-webdesign.de>\n"
 "Language: de_DE\n"
@@ -27,7 +27,7 @@ msgid "Urlify"
 msgstr "Urlify"
 
 #: admin/controller/class-admin-controller-config.php:17
-#: inc/class-plugin.php:78
+#: inc/class-plugin.php:80
 msgid "Configuration"
 msgstr "Konfiguration"
 
@@ -60,19 +60,19 @@ msgstr "Fehlender Parameter: %s."
 msgid "The given slug: %s is not a valid slug."
 msgstr "Der übergebene URL-Teil: %s ist nicht valide."
 
-#: inc/class-repository-htaccess.php:56
+#: inc/class-htaccess.php:37
 msgid "Admin URL is not a valid slug"
 msgstr "Der übergebene URL-Teil: %s ist nicht valide"
 
-#: inc/class-repository-htaccess.php:59
+#: inc/class-htaccess.php:40
 msgid "Login URL is not a valid slug"
 msgstr "Der übergebene URL-Teil: %s ist nicht valide"
 
-#: inc/class-repository-htaccess.php:94
+#: inc/class-htaccess.php:75
 msgid "The class has not been initialized proper"
 msgstr "Die Klasse muss initialisiert werden"
 
-#: inc/class-repository-htaccess.php:137
+#: inc/class-htaccess.php:118
 msgid "Could not set rewrite to incorrect slug"
 msgstr "Rewrite konnte wegen einer fehlerhaften URL nicht gesetzt werden"
 
@@ -96,19 +96,16 @@ msgstr "URL's speichern"
 msgid "Reset to Wordpress Defaults"
 msgstr "Zu WordPress Standard zurücksetzen"
 
-#: admin/templates/plugin.phtml:13
+#: admin/templates/plugin.phtml:14
 #, php-format
 msgid ""
-"Important: Before you can remove this plugin you have to deactivate it.\n"
-"    If you don't deactivate your system may not work properly. %sMore Details"
-"%s"
+"Important: Before you can remove this plugin you have to deactivate it. "
+"%sMore Details%s"
 msgstr ""
 "Wichtig: Bevor Sie dieses Plugin entfernen können, müssen Sie es "
-"deaktivieren.\n"
-"Wenn Sie dies nicht tun, könnte Ihre Webseite nicht mehr korrekt arbeiten. "
-"%sMehr Details%s"
+"deaktivieren. %sMehr Details%s"
 
-#: admin/templates/plugin.phtml:24
+#: admin/templates/plugin.phtml:25
 msgid ""
 "This Plugin will provide a way to disallow access to /wp-admin/ with the "
 "renaming of the backends default url. It can rewrite the wp-login.php "
@@ -120,8 +117,8 @@ msgstr ""
 "Chance haben das Loginscript zu finden."
 
 #. Plugin Name of the plugin/theme
-msgid "sumedia-urlify"
-msgstr "sumedia-urlify"
+msgid "Sumedia Urlify"
+msgstr "Sumedia Urlify"
 
 #. Plugin URI of the plugin/theme
 msgid "https://github.com/sumedia-wordpress/urlify"

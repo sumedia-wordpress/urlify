@@ -6,6 +6,7 @@ class Sumedia_Urlify_Plugin
     {
         add_action('plugins_loaded', [$this, 'textdomain']);
 
+        $this->factories();
         $this->rewrite_listener();
         $this->filter_url_functions();
 
@@ -18,14 +19,14 @@ class Sumedia_Urlify_Plugin
         $installer = new Sumedia_Urlify_Db_Installer();
         $installer->install();
 
-        $urls = Sumedia_Urlify_Repository_Urls::get_instance();
+        $urls = Sumedia_Base_Registry::get('Sumedia_Urlify_Repository_Urls');
         $admin_url = $urls->get_admin_url();
         $login_url = $urls->get_login_url();
 
-        $htaccess = Sumedia_Urlify_Repository_Htaccess::get_instance($admin_url, $login_url);
+        $htaccess = Sumedia_Base_Registry::get('Sumedia_Urlify_Htaccess');
         $htaccess->write($admin_url, $login_url);
 
-        $config = Sumedia_Urlify_Repository_Config::get_instance();
+        $config = Sumedia_Base_Registry::get('Sumedia_Urlify_Config');
         $config->write($admin_url);
 
         add_action('admin_init', function(){
@@ -35,15 +36,15 @@ class Sumedia_Urlify_Plugin
 
     function deactivate()
     {
-        $urls = Sumedia_Urlify_Repository_Urls::get_instance();
+        $urls = Sumedia_Base_Registry::get('Sumedia_Urlify_Repository_Urls');
         $admin_url = $urls->get_admin_url();
         $login_url = $urls->get_login_url();
 
-        $htaccess = Sumedia_Urlify_Repository_Htaccess::get_instance($admin_url, $login_url);
+        $htaccess = Sumedia_Base_Registry::get('Sumedia_Urlify_Htaccess');
         $htaccess->register_rewrite_filter();
         $htaccess->remove();
 
-        $config = Sumedia_Urlify_Repository_Config::get_instance();
+        $config = Sumedia_Base_Registry::get('Sumedia_Urlify_Config');
         $config->remove();
 
         // can't redirect here =/ - user drops to 404
@@ -58,18 +59,19 @@ class Sumedia_Urlify_Plugin
         );
     }
 
+    public function factories()
+    {
+        Sumedia_Base_Registry::set_factory('Sumedia_Urlify_Htaccess', new Sumedia_Urlify_Htaccess_Factory);
+    }
+
     public function rewrite_listener()
     {
-        $urls = Sumedia_Urlify_Repository_Urls::get_instance();
-        $admin_url = $urls->get_admin_url();
-        $login_url = $urls->get_login_url();
-
-        Sumedia_Urlify_Repository_Htaccess::get_instance($admin_url, $login_url);
+        Sumedia_Base_Registry::get('Sumedia_Urlify_Htaccess');
     }
 
     public function plugin_view()
     {
-        $plugins = Sumedia_Base_Registry_View::get('Sumedia_Base_Admin_View_Plugins');
+        $plugins = Sumedia_Base_Registry::get('Sumedia_Base_Admin_View_Plugins');
         $plugins->add_plugin(SUMEDIA_URLIFY_PLUGIN_NAME, [
             'name' => 'Urlify',
             'version' => SUMEDIA_URLIFY_VERSION,
@@ -89,9 +91,9 @@ class Sumedia_Urlify_Plugin
             if ($_GET['page'] == 'sumedia' && $_GET['plugin'] == SUMEDIA_URLIFY_PLUGIN_NAME)
             {
                 if ($_GET['action'] == 'config') {
-                    $controller = Sumedia_Urlify_Admin_Controller_Config::get_instance();
+                    $controller = Sumedia_Base_Registry::get('Sumedia_Urlify_Admin_Controller_Config');
                 } elseif ($_GET['action'] == 'setconfig') {
-                    $controller = Sumedia_Urlify_Admin_Controller_Setconfig::get_instance();
+                    $controller = Sumedia_Base_Registry::get('Sumedia_Urlify_Admin_Controller_Setconfig');
                 }
 
                 if (isset($controller)) {
@@ -111,7 +113,7 @@ class Sumedia_Urlify_Plugin
         add_filter('admin_url', 'sumedia_urlify_url');
         function sumedia_urlify_url($url)
         {
-            $urls = Sumedia_Urlify_Repository_Urls::get_instance();
+            $urls = Sumedia_Base_Registry::get('Sumedia_Urlify_Repository_Urls');
             $admin_url = $urls->get_admin_url();
             $login_url = $urls->get_login_url();
 

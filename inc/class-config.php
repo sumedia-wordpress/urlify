@@ -2,29 +2,8 @@
 
 require_once(dirname(__DIR__) . str_replace('/', DIRECTORY_SEPARATOR, '/vendor/wp-cli/wp-config-transformer/src/WPConfigTransformer.php'));
 
-class Sumedia_Urlify_Repository_Config
+class Sumedia_Urlify_Config
 {
-    /**
-     * @var $this
-     */
-    protected static $instance;
-
-    /**
-     * Sumedia_Urlify_Repository_Config constructor.
-     */
-    protected function __construct(){}
-
-    /**
-     * @return Sumedia_Urlify_Repository_Htaccess
-     */
-    public static function get_instance()
-    {
-        if (null == static::$instance) {
-            static::$instance = new static();
-        }
-        return static::$instance;
-    }
-
     /**
      * @param string $admin_url
      * @throws Exception
