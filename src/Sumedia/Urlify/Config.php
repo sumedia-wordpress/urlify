@@ -1,23 +1,26 @@
 <?php
 
-require_once(dirname(__DIR__) . str_replace('/', DIRECTORY_SEPARATOR, '/vendor/wp-cli/wp-config-transformer/src/WPConfigTransformer.php'));
+namespace Sumedia\Urlify;
 
-class Sumedia_Urlify_Config
+if (!class_exists('WPConfigTransformer')) {
+    require_once(SUMEDIA_URLIFY_PLUGIN_PATH . str_replace('/', DIRECTORY_SEPARATOR, '/vendor/wp-cli/wp-config-transformer/src/WPConfigTransformer.php'));
+}
+
+class Config
 {
     /**
      * @param string $admin_url
-     * @throws Exception
      */
     public function write($admin_url)
     {
         $path = $this->get_wp_path() . DIRECTORY_SEPARATOR . $admin_url;
-        $wp_config = new WPConfigTransformer(get_home_path() . DIRECTORY_SEPARATOR . 'wp-config.php');
+        $wp_config = new \WPConfigTransformer(get_home_path() . DIRECTORY_SEPARATOR . 'wp-config.php');
         $wp_config->update('constant', 'ADMIN_COOKIE_PATH', $path);
     }
 
     public function remove()
     {
-        $wp_config = new WPConfigTransformer(get_home_path() . DIRECTORY_SEPARATOR . 'wp-config.php');
+        $wp_config = new \WPConfigTransformer(get_home_path() . DIRECTORY_SEPARATOR . 'wp-config.php');
         $wp_config->remove('constant', 'ADMIN_COOKIE_PATH');
     }
 

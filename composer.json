@@ -3,8 +3,7 @@
     "description": "Change sensitive URL's",
     "type": "wordpress-plugin",
     "require": {
-        "wp-cli/wp-config-transformer": "^1.2",
-        "sumedia-wordpress/base": "master"
+        "wp-cli/wp-config-transformer": "^1.2"
     },
     "license": "GPL-3.0-or-later",
     "authors": [

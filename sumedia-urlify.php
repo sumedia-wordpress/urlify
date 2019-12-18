@@ -11,7 +11,7 @@
  * Plugin Name: Sumedia Urlify
  * Plugin URI:  https://github.com/sumedia-wordpress/urlify
  * Description: Changes important URL's to improve security
- * Version:     0.2.1
+ * Version:     0.3.0
  * Requires at least: 5.3 (nothing else tested yet)
  * Requires PHP: 5.6.0 (not tested, could work)
  * Author:      Sven Ullmann
@@ -38,29 +38,37 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-if (!function_exists( 'add_filter')) {
+namespace Sumedia\Urlify;
+
+if (!defined('ABSPATH')) {
     header( 'Status: 403 Forbidden' );
     header( 'HTTP/1.1 403 Forbidden' );
     exit();
 }
 
-require_once(__DIR__ . DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR . 'autoload.php');
-require_once(__DIR__ . DIRECTORY_SEPARATOR . 'sumedia-base.php');
+if (-1 == version_compare(PHP_VERSION, '5.6.0')) {
 
-if (defined('SUMEDIA_BASE_VERSION')) {
+    function sumedia_base_phpversionlow_message()
+    {
+        return print '<div id="message" class="error fade"><p>' . __('Your PHP version is to low for using Sumedia plugins.') . '</p></div>';
+    }
+    add_action('admin_notices', 'sumedia_base_phpversionlow_message');
 
-    define('SUMEDIA_URLIFY_VERSION', '0.2.1');
+} else {
+
+    define('SUMEDIA_URLIFY_VERSION', '0.3.0');
     define('SUMEDIA_URLIFY_PLUGIN_NAME', dirname(plugin_basename(__FILE__)));
+    define('SUMEDIA_URLIFY_PLUGIN_PATH', __DIR__);
+    define('SUMEDIA_URLIFY_PLUGIN_URL', plugin_dir_url(__FILE__));
 
-    $autoloader = Sumedia_Base_Autoloader::get_instance();
-    $autoloader->register_autoload_dir(SUMEDIA_URLIFY_PLUGIN_NAME, 'inc');
-    $autoloader->register_autoload_dir(SUMEDIA_URLIFY_PLUGIN_NAME, Suma\ds('admin/view'));
-    $autoloader->register_autoload_dir(SUMEDIA_URLIFY_PLUGIN_NAME, Suma\ds('admin/form'));
-    $autoloader->register_autoload_dir(SUMEDIA_URLIFY_PLUGIN_NAME, Suma\ds('admin/controller'));
+    require_once(__DIR__ . str_replace('/', DIRECTORY_SEPARATOR, '/inc/functions.php'));
+    require_once(__DIR__ . ds('/src/Sumedia/Urlify/Base/Autoloader.php'));
 
-    $plugin = new Sumedia_Urlify_Plugin();
+    $autoloader = \Sumedia\Urlify\Base\Autoloader::get_instance();
+    $autoloader->register_autoloader();
+
+    $plugin = new \Sumedia\Urlify\Plugin;
     register_activation_hook(__FILE__, [$plugin, 'activate']);
     register_deactivation_hook(__FILE__, [$plugin, 'deactivate']);
     $plugin->init();
-
 }

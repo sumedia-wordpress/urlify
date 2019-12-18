@@ -1,6 +1,8 @@
 <?php
 
-class Sumedia_Urlify_Htaccess
+namespace Sumedia\Urlify;
+
+class Htaccess
 {
     /**
      * @var array
@@ -34,10 +36,10 @@ class Sumedia_Urlify_Htaccess
     public function init($admin_url, $login_url)
     {
         if (!$this->is_valid_slug($admin_url)) {
-            throw new RuntimeException(__('Admin URL is not a valid slug', SUMEDIA_URLIFY_PLUGIN_NAME));
+            throw new \RuntimeException(__('Admin URL is not a valid slug', SUMEDIA_URLIFY_PLUGIN_NAME));
         }
         if (!$this->is_valid_slug($login_url)) {
-            throw new RuntimeException(__('Login URL is not a valid slug', SUMEDIA_URLIFY_PLUGIN_NAME));
+            throw new \RuntimeException(__('Login URL is not a valid slug', SUMEDIA_URLIFY_PLUGIN_NAME));
         }
         $this->admin_url = $admin_url;
         $this->login_url = $login_url;
@@ -72,7 +74,7 @@ class Sumedia_Urlify_Htaccess
     public function filter_modifications()
     {
         if (!$this->admin_url || !$this->login_url) {
-            throw new RuntimeException(__('The class has not been initialized proper', SUMEDIA_URLIFY_PLUGIN_NAME));
+            throw new \RuntimeException(__('The class has not been initialized proper', SUMEDIA_URLIFY_PLUGIN_NAME));
         }
         return $this->parsed_modifications;
     }
@@ -115,7 +117,7 @@ class Sumedia_Urlify_Htaccess
     protected function get_modification($admin_url, $login_url)
     {
         if (!$this->is_valid_slug($admin_url) || !$this->is_valid_slug($login_url)) {
-            throw new RuntimeException(__('Could not set rewrite to incorrect slug', SUMEDIA_URLIFY_PLUGIN_NAME));
+            throw new \RuntimeException(__('Could not set rewrite to incorrect slug', SUMEDIA_URLIFY_PLUGIN_NAME));
         }
 
         return '# BEGIN sumedia-urlify

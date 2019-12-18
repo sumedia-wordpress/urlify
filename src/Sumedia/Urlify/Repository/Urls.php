@@ -1,6 +1,8 @@
 <?php
 
-class Sumedia_Urlify_Repository_Urls extends Sumedia_Base_Repository
+namespace Sumedia\Urlify\Repository;
+
+class Urls extends \Sumedia\Urlify\Base\Repository
 {
     /**
      * @return string
@@ -55,7 +57,7 @@ class Sumedia_Urlify_Repository_Urls extends Sumedia_Base_Repository
     public function set_admin_url($url)
     {
         if (!preg_match('#^[a-z0-9._\-/]+$#i', $url)) {
-            throw new RuntimeException('invalid url has been given');
+            throw new \RuntimeException('invalid url has been given');
         }
 
         $data = $this->findOne('urltype', 'admin_url');
@@ -98,7 +100,7 @@ class Sumedia_Urlify_Repository_Urls extends Sumedia_Base_Repository
     public function set_login_url($url)
     {
         if (!preg_match('#^[a-z0-9._\-/]+$#i', $url)) {
-            throw new RuntimeException('invalid url has been given');
+            throw new \RuntimeException('invalid url has been given');
         }
 
         $data = $this->findOne('urltype', 'login_url');

@@ -1,12 +1,9 @@
 <?php
 
-class Sumedia_Urlify_Admin_Form_Config extends Sumedia_Base_Form
-{
-    /**
-     * @var $this
-     */
-    protected static $instance;
+namespace Sumedia\Urlify\Admin\Form;
 
+class Config extends \Sumedia\Urlify\Base\Form
+{
     /**
      * @param array $request_data
      * @return bool
@@ -14,7 +11,7 @@ class Sumedia_Urlify_Admin_Form_Config extends Sumedia_Base_Form
     public function is_valid_data(array $request_data)
     {
         $valid = true;
-        $messenger = Sumedia_Base_Messenger::get_instance();
+        $messenger = \Sumedia\Urlify\Base\Messenger::get_instance();
 
         if (!isset($request_data['_wpnonce']) || !wp_verify_nonce($request_data['_wpnonce'])){
             $messenger->add_message($messenger::TYPE_ERROR, __('The form could not be verified, please try again', SUMEDIA_URLIFY_PLUGIN_NAME));

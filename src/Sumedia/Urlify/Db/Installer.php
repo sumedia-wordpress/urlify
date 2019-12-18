@@ -1,14 +1,9 @@
 <?php
 
-require_once ABSPATH . 'wp-admin/includes/upgrade.php';
+namespace Sumedia\Urlify\Db;
 
-class Sumedia_Urlify_Db_Installer
+class Installer
 {
-    /**
-     * @var string
-     */
-    protected $current_version;
-
     /**
      * @var string
      */
@@ -21,18 +16,14 @@ class Sumedia_Urlify_Db_Installer
 
     public function __construct()
     {
-        $this->current_version = SUMEDIA_URLIFY_VERSION;
         $this->option_name = str_replace('-', '_', SUMEDIA_URLIFY_PLUGIN_NAME) . '_version';
         $this->table_name = str_replace('-', '_', SUMEDIA_URLIFY_PLUGIN_NAME) . '_urls';
     }
 
     public function install()
     {
-        $installed_version = get_option($this->option_name);
-        if (!$installed_version || version_compare($installed_version, $this->current_version, '<')) {
-            $this->install_table();
-            add_option($this->option_name, $this->current_version);
-        }
+        $this->install_table();
+        add_option($this->option_name, SUMEDIA_URLIFY_VERSION);
     }
 
     protected function install_table()
@@ -53,6 +44,6 @@ class Sumedia_Urlify_Db_Installer
             `urltype` VARCHAR(64) NOT NULL UNIQUE KEY,
             `url` VARCHAR(128) NOT NULL UNIQUE KEY            
         ) $charset_collate;";
-        dbDelta($sql);
+        $wpdb->query($sql);
     }
 }
